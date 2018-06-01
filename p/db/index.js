@@ -1,5 +1,7 @@
 'use strict'
 
+const Buffer = require('buffer-ponyfill')
+
 const _createParseJourney = require('../../parse/journey')
 const _formatStation = require('../../format/station')
 const {bike} = require('../../format/filters')
