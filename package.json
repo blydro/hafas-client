@@ -36,6 +36,7 @@
 		"buffer-ponyfill": "^0.1.0",
 		"capture-stack-trace": "^1.0.0",
 		"create-hash": "^1.2.0",
+		"es6-symbol": "^3.1.1",
 		"fetch-ponyfill": "^6.0.0",
 		"gps-distance": "0.0.4",
 		"lodash": "^4.17.5",
