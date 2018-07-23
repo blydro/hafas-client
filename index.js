@@ -122,7 +122,8 @@ const createClient = (profile, request = _request) => {
 			polylines: false, // return leg shapes?
 			remarks: true, // parse & expose hints & warnings?
 			// Consider walking to nearby stations at the beginning of a journey?
-			startWithWalking: true
+			startWithWalking: true,
+			scheduledDays: false
 		}, opt)
 		if (opt.via) opt.via = profile.formatLocation(profile, opt.via, 'opt.via')
 
