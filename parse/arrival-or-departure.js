@@ -1,5 +1,3 @@
-'use strict'
-
 const findRemark = require('./find-remark')
 
 // todo: what is d.jny.dirFlg?
@@ -10,12 +8,13 @@ const createParseArrOrDep = (profile, opt, data, prefix) => {
 	if (prefix !== 'a' && prefix !== 'd') throw new Error('invalid prefix')
 
 	const parseArrOrDep = (d) => {
-		const t = d.stbStop[prefix + 'TimeR'] || d.stbStop[prefix + 'TimeS']
+		const t = d.stbStop[`${prefix  }TimeR`] || d.stbStop[`${prefix  }TimeS`]
 		const when = profile.parseDateTime(profile, d.date, t)
 
 		const res = {
 			tripId: d.jid,
 			stop: locations[parseInt(d.stbStop.locX)] || null,
+                        nextStop: locations[d.stopL.length > 1 ? parseInt(d.stopL[1].locX) : 0] || null,
 			when: when.toISO(),
 			direction: profile.parseStationName(d.dirTxt),
 			line: lines[parseInt(d.prodX)] || null,
@@ -26,8 +25,8 @@ const createParseArrOrDep = (profile, opt, data, prefix) => {
 
 		// todo: DRY with parseStopover
 		// todo: DRY with parseJourneyLeg
-		const tR = d.stbStop[prefix + 'TimeR']
-		const tP = d.stbStop[prefix + 'TimeS']
+		const tR = d.stbStop[`${prefix  }TimeR`]
+		const tP = d.stbStop[`${prefix  }TimeS`]
 		if (tR && tP) {
 			const realtime = profile.parseDateTime(profile, d.date, tR)
 			const planned = profile.parseDateTime(profile, d.date, tP)
@@ -36,14 +35,14 @@ const createParseArrOrDep = (profile, opt, data, prefix) => {
 
 		// todo: DRY with parseStopover
 		// todo: DRY with parseJourneyLeg
-		const pR = d.stbStop[prefix + 'PlatfR']
-		const pP = d.stbStop[prefix + 'PlatfS']
+		const pR = d.stbStop[`${prefix  }PlatfR`]
+		const pP = d.stbStop[`${prefix  }PlatfS`]
 		res.platform = pR || pP || null
 		if (pR && pP && pR !== pP) res.formerScheduledPlatform = pP
 
 		// todo: DRY with parseStopover
 		// todo: DRY with parseJourneyLeg
-		if (d.stbStop[prefix + 'Cncl']) {
+		if (d.stbStop[`${prefix  }Cncl`]) {
 			res.cancelled = true
 			Object.defineProperty(res, 'canceled', {value: true})
 			res.when = res.delay = null
